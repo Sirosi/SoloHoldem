@@ -15,7 +15,8 @@ public class HoldemManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        HandChecker.CalcPokerHand(Cards);
+        PokerHand pokerHand = HandChecker.CalcPokerHand(Cards);
+        Logger.Debug(pokerHand.HandType.ToString(), pokerHand.SuitType, pokerHand.Powers);
     }
 
     // Update is called once per frame

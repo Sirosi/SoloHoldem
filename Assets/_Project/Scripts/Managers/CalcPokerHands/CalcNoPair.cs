@@ -25,6 +25,6 @@ public class CalcNoPair : ICalcPokerHand
         {
             powers.RemoveAt(i);
         }
-        return new PokerHand(PokerHandType.NoPair, powers.ToArray());
+        return new PokerHand(PokerHandType.NoPair, SuitType.Joker, powers.ToArray());
     }
 }

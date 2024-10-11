@@ -18,7 +18,7 @@ public class CalcFourOfAKind : ICalcPokerHand
                     }
                 }
 
-                return new PokerHand(PokerHandType.FourOfAKind, powers.ToArray());
+                return new PokerHand(PokerHandType.FourOfAKind, SuitType.Joker, powers.ToArray());
             }
         }
 

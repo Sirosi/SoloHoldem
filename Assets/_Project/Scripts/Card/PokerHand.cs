@@ -4,14 +4,15 @@ public class PokerHand
     public SuitType SuitType;
     public byte[] Powers;
 
-    public PokerHand(PokerHandType type, byte[] powers)
+    public PokerHand(PokerHandType handType, SuitType suitType, byte[] powers)
     {
-        HandType = type;
+        HandType = handType;
+        SuitType = suitType;
         Powers = powers;
     }
 
     #region ¡Þ operators ¡Þ
-    public override bool Equals(object obj)
+    /*public override bool Equals(object obj)
     {
         return base.Equals(obj);
     }
@@ -88,6 +89,6 @@ public class PokerHand
         }
 
         return false;
-    }
+    }*/
     #endregion
 }

@@ -53,7 +53,7 @@ public class CalcFullHouse : ICalcPokerHand
                     powers.Add(key);
                 }
 
-                return new PokerHand(PokerHandType.FullHouse, powers.ToArray());
+                return new PokerHand(PokerHandType.FullHouse, SuitType.Joker, powers.ToArray());
             }
         }
         return null;

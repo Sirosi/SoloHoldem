@@ -57,6 +57,6 @@ public class CalcStraightFlush : ICalcPokerHand
 
 
 
-        return new PokerHand(PokerHandType.StraightFlush, powers.ToArray());
+        return new PokerHand(PokerHandType.StraightFlush, SuitType.Joker, powers.ToArray());
     }
 }
