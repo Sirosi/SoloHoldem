@@ -10,5 +10,5 @@ public enum PokerHandType
     FullHouse           = 0x40,
     FourOfAKind         = 0x50,
     StraightFlush       = 0x60,
-    RoyalStraightFlush          = 0x90,
+    RoyalStraightFlush  = 0x90,
 }

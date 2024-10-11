@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class HoldemManager : MonoBehaviour
 {
+    public CardGroupController[] CardController;
+
     public Card[] Cards;
     public IPokerHandChecker HandChecker = new HoldemHandChecker();
+
+
+    private readonly Dictionary<CardGroupController, int> controllerPerBat = new();
 
     // Start is called before the first frame update
     void Start()
@@ -17,5 +22,10 @@ public class HoldemManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void BatBalance(CardGroupController controller, int balance)
+    {
+        controllerPerBat[controller] += balance;
     }
 }
