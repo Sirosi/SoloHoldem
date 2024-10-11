@@ -16,16 +16,24 @@ public class CardSpriteManager : Singleton<CardSpriteManager>
     {
         get => CardSprites[..13];
     }
-    public Sprite[] ColverSprites
+    public Sprite[] CloverSprites
     {
-        get => CardSprites[13..13];
+        get => CardSprites[13..26];
     }
-    public Sprite[] DiaSprites
+    public Sprite[] DiamondSprites
     {
-        get => CardSprites[26..13];
+        get => CardSprites[26..39];
     }
     public Sprite[] HeartSprites
     {
-        get => CardSprites[39..13];
+        get => CardSprites[39..52];
+    }
+    public Sprite JokerSprite
+    {
+        get => CardSprites[53];
+    }
+    public Sprite BackSprite
+    {
+        get => CardSprites[52];
     }
 }
