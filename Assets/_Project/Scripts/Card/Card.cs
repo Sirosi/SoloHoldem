@@ -10,6 +10,11 @@ public class Card : MonoBehaviour
 
     public bool Opend = false;
 
+    public Vector3 OriginPosition
+    {
+        get => transform.parent.position;
+    }
+
     public void SetCard(SuitType type, byte value)
     {
         Type = type;
