@@ -27,7 +27,7 @@ public class CalcStraightFlush : ICalcPokerHand
         {
             if (flushList[^4] + 4 == flushList[^0]) // 플러쉬인 패에서 가장 높은 수 5장이 스트레이트로 존재하면
             {
-                return new PokerHand(PokerHandType.RoyalStraightFlush, suitType, new byte[]
+                return new PokerHand(PokerHandType.StraightFlush, suitType, new byte[]
                 {
                     flushList[^0],
                     flushList[^1],
