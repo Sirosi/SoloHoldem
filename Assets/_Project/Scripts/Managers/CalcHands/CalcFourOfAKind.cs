@@ -8,8 +8,10 @@ public class CalcFourOfAKind : ICalcPokerHand
         {
             if (cards[i].Value == cards[i + 3].Value)
             {
-                List<byte> powers = new();
-                powers.Add(cards[i].Value);
+                List<byte> powers = new()
+                {
+                    cards[i].Value
+                };
                 for(int j = nonDuplicate.Count - 1;j >= 0;j--)
                 {
                     if (cards[j].Value != nonDuplicate[j].Value)
@@ -18,7 +20,7 @@ public class CalcFourOfAKind : ICalcPokerHand
                     }
                 }
 
-                return new PokerHand(PokerHandType.FourOfAKind, SuitType.Joker, powers.ToArray());
+                return new PokerHand(PokerHandType.FourOfAKind, powers.ToArray());
             }
         }
 
