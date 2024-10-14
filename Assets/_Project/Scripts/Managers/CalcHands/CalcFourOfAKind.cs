@@ -1,26 +1,23 @@
 using System.Collections.Generic;
+using System.Linq;
 
 public class CalcFourOfAKind : ICalcPokerHand
 {
-    public PokerHand Calulate(List<Card> cards, List<Card> nonDuplicate)
+    public PokerHand Calulate(List<Card> cards)
     {
-        for(int i = 0;i <= cards.Count - 4;i++)
+        List<byte> values = cards.Select(x => x.Value).ToList();
+        for (int i = 0; i < values.Count - 3; i++) // 한 번에 4개의 인덱스를 동시 확인해야 하기 때문에 -3을 함.
         {
-            if (cards[i].Value == cards[i + 3].Value)
+            if (values[i] == values[i + 3]) // 포카드 확인
             {
-                List<byte> powers = new()
-                {
-                    cards[i].Value
-                };
-                for(int j = nonDuplicate.Count - 1;j >= 0;j--)
-                {
-                    if (cards[j].Value != nonDuplicate[j].Value)
-                    {
-                        powers.Add(cards[j].Value);
-                    }
-                }
+                byte mainKicker = PokerHandUtility.ConvertToKicker(values[i]);
+                List<byte> kickers = Enumerable.Repeat(mainKicker, 4).ToList();
+                values.RemoveRange(i, 4);
 
-                return new PokerHand(PokerHandType.FourOfAKind, powers.ToArray());
+                byte subKicker = values.Max(PokerHandUtility.ConvertToKicker);
+                kickers.Add(subKicker);
+
+                return new PokerHand(PokerHandType.FourOfAKind, kickers);
             }
         }
 

@@ -3,27 +3,22 @@ using System.Linq;
 
 public class CalcStraightFlush : ICalcPokerHand
 {
-    public PokerHand Calulate(List<Card> cards, List<Card> nonDuplicate)
+    public PokerHand Calulate(List<Card> cards)
     {
-        List<byte> flushList = CalcFlush.GetFlush(cards, nonDuplicate);
-        if (flushList == null) return null; // 플러쉬가 존재하지 않음.
-
-        while(flushList.Count >= 5) // 순서계산이 끝나지 않은 패가 5장 이상일 시
+        List<byte> flushList = PokerHandUtility.GetFlush(cards);
+        if (flushList != null) // 플러쉬가 존재할 때
         {
-            if (flushList[^4] + 4 == flushList[^0]) // 플러쉬인 패에서 가장 높은 수 5장이 스트레이트로 존재하면
+            while (flushList.Count >= 5) // 순서계산이 끝나지 않은 패가 5장 이상일 시
             {
-                return new PokerHand(PokerHandType.StraightFlush, new byte[]
+                if (flushList[^5] + 4 == flushList[^1]) // 플러쉬인 패에서 가장 높은 수 5장이 스트레이트로 존재하면
                 {
-                    flushList[^0],
-                    flushList[^1],
-                    flushList[^2],
-                    flushList[^3],
-                    flushList[^4]
-                });
+                    // !!!!!Important
+                    // 일반적인 스트레이트는 A를 K보다 높은 수로 보지 않음
+                    return new PokerHand(PokerHandType.StraightFlush, flushList.TakeLast(5).ToArray());
+                }
+                flushList.RemoveAt(flushList.Count - 1); // 가장 높은 수를 제거
             }
-            flushList.RemoveAt(flushList.Count - 1); // 가장 높은 수를 제거
         }
-
 
         return null;
     }

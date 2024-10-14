@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 public class PokerHand
 {
@@ -22,6 +23,10 @@ public class PokerHand
             HandType = handType;
             Kicker = kicker;
         }
+    }
+    public PokerHand(PokerHandType handType, List<byte> kicker) : this(handType, kicker.ToArray())
+    {
+
     }
 
     #region ¡Þ operators ¡Þ
