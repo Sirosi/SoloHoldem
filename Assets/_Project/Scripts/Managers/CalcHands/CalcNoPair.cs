@@ -1,30 +1,13 @@
 using System.Collections.Generic;
+using System.Linq;
 
 public class CalcNoPair : ICalcPokerHand
 {
-    public PokerHand Calulate(List<Card> cards, List<Card> nonDuplicate)
+    public PokerHand Calulate(List<Card> cards)
     {
-        List<byte> powers = new();
-        if (nonDuplicate[0].Value != 1)
-        {
-            powers.Add(nonDuplicate[0].Value);
-            for (int i = nonDuplicate.Count - 1;i > 0;i--)
-            {
-                powers.Add(nonDuplicate[i].Value);
-            }
-        }
-        else
-        {
-            for (int i = nonDuplicate.Count - 1; i >= 0; i--)
-            {
-                powers.Add(nonDuplicate[i].Value);
-            }
-        }
+        List<byte> values = cards.Select(x => PokerHandUtility.ConvertToKicker(x.Value)).ToList();
+        values.Sort();
 
-        for(int i = powers.Count - 1;i >= 5;i--)
-        {
-            powers.RemoveAt(i);
-        }
-        return new PokerHand(PokerHandType.NoPair, SuitType.Joker, powers.ToArray());
+        return new PokerHand(PokerHandType.NoPair, values.TakeLast(5).Reverse().ToArray());
     }
 }

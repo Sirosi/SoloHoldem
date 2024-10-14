@@ -13,7 +13,7 @@ public class CalcStraight : ICalcPokerHand
             {
                 // !!!!!Important
                 // 일반적인 스트레이트는 A를 K보다 높은 수로 보지 않음
-                return new PokerHand(PokerHandType.Straight, distinctedValues.TakeLast(5).ToArray());
+                return new PokerHand(PokerHandType.Straight, distinctedValues.TakeLast(5).Reverse().ToArray());
             }
             distinctedValues.RemoveAt(distinctedValues.Count - 1); // 가장 높은 수를 제거
         }

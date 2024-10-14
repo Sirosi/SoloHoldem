@@ -63,11 +63,23 @@ public class PokerHand
     }
     public static bool operator ==(PokerHand left, PokerHand right)
     {
+        if (ReferenceEquals(left, right))
+        {
+            return true;
+        }
+        else if (left is null || right is null)
+        {
+            return false;
+        }
+
+        // 같은 해시 코드를 가지면 true
         return left.GetHashCode() == right.GetHashCode();
     }
+
     public static bool operator !=(PokerHand left, PokerHand right)
     {
-        return left.GetHashCode() != right.GetHashCode();
+        // == 연산자의 반대 결과를 반환
+        return !(left == right);
     }
     #endregion
 }

@@ -14,7 +14,7 @@ public class CalcStraightFlush : ICalcPokerHand
                 {
                     // !!!!!Important
                     // 일반적인 스트레이트는 A를 K보다 높은 수로 보지 않음
-                    return new PokerHand(PokerHandType.StraightFlush, flushList.TakeLast(5).ToArray());
+                    return new PokerHand(PokerHandType.StraightFlush, flushList.TakeLast(5).Reverse().ToArray());
                 }
                 flushList.RemoveAt(flushList.Count - 1); // 가장 높은 수를 제거
             }

@@ -1,8 +1,8 @@
 public enum PokerHandType
 {
     None                = 0x00,
-    //NoPair              = 0x10,
-    //OnePair             = 0x11,
+    NoPair              = 0x10,
+    OnePair             = 0x11,
     TwoPair             = 0x12,
     ThreeOfAKind        = 0x13,
     Straight            = 0x20,

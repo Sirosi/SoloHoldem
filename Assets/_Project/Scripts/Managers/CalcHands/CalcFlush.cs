@@ -13,7 +13,7 @@ public class CalcFlush : ICalcPokerHand
             {
                 kickers.Add(PokerHandUtility.ConvertToKicker(flushList[0]));
             }
-            kickers.AddRange(flushList.TakeLast(5 - kickers.Count));
+            kickers.AddRange(flushList.TakeLast(5 - kickers.Count).Reverse());
             return new PokerHand(PokerHandType.Flush, kickers.ToArray());
         }
 

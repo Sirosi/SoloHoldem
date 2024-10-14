@@ -12,7 +12,11 @@ public class HoldemHandChecker: IPokerHandChecker
         new CalcFourOfAKind(),
         new CalcFullHouse(),
         new CalcFlush(),
-
+        new CalcBroadwayStraight(),
+        new CalcStraight(),
+        new CalcThreeOfAKind(),
+        new CalcTwoPair(),
+        new CalcOnePair(),
         new CalcNoPair()
     };
 
@@ -21,19 +25,11 @@ public class HoldemHandChecker: IPokerHandChecker
     public PokerHand CalcPokerHand(params Card[] cards)
     {
         List<Card> sortedCards = new(cards);// 정렬된 카드 리스트
-        List<Card> nonDuplicate = new();    // 중복숫자 제거 카드 리스트
         sortedCards.Sort((x, y) => x.Value >= y.Value ? 1 : -1);
-        for(int i = 0;i < sortedCards.Count - 1;i++)
-        {
-            if (sortedCards[i] != sortedCards[i + 1])
-            {
-                nonDuplicate.Add(sortedCards[i]);
-            }
-        }
 
         foreach(ICalcPokerHand calc in calcPokerHands)
         {
-            PokerHand pokerHand = calc.Calulate(sortedCards, nonDuplicate);
+            PokerHand pokerHand = calc.Calulate(sortedCards);
             if(pokerHand != null)
             {
                 return pokerHand;
