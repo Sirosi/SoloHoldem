@@ -16,7 +16,7 @@ public class HoldemManager : MonoBehaviour
     void Start()
     {
         PokerHand pokerHand = HandChecker.CalcPokerHand(Cards);
-        Logger.Debug(pokerHand.HandType.ToString(), pokerHand.SuitType, pokerHand.Powers);
+        Logger.Debug(pokerHand.HandType.ToString(), pokerHand.Kicker[0], pokerHand.Kicker[1], pokerHand.Kicker[2], pokerHand.Kicker[3], pokerHand.Kicker[4]);
     }
 
     // Update is called once per frame
