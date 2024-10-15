@@ -18,7 +18,7 @@ public static class PokerHandUtility
 
     /// <summary>
     /// 플러쉬가 존재하는지 확인하는 Method<br/>
-    /// 존재하지 않으면, (SuitType.None, null)을 반환
+    /// 존재하지 않으면, null을 반환
     /// </summary>
     /// <param name="cards">오름차순으로 정렬된 카드들</param>
     /// <param name="nonDuplicate">숫자중복제거 작업을 거친 오름차순 정렬 카드들</param>

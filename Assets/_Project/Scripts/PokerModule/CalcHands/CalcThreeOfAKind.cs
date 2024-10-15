@@ -21,7 +21,7 @@ public class CalcThreeOfAKind : ICalcPokerHand
             List<byte> values = cards.Select(x => PokerHandUtility.ConvertToKicker(x.Value)).ToList();
             values.Sort();
 
-            byte mainKicker = triples.Max(PokerHandUtility.ConvertToKicker); // triples 중에서 킥커값이 가장 높은 것이 메인
+            byte mainKicker = PokerHandUtility.ConvertToKicker(triples[0]); // triples 중에서 킥커값이 가장 높은 것이 메인
             values.RemoveAll(x => x == mainKicker);
             byte[] kickers = Enumerable.Repeat(mainKicker, 3).Concat(values.TakeLast(2).Reverse()).ToArray();
 

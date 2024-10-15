@@ -19,19 +19,12 @@ public class CalcTwoPair : ICalcPokerHand
         {
             List<byte> values = cards.Select(x => PokerHandUtility.ConvertToKicker(x.Value)).ToList();
 
-            byte mainKicker = pairs.Max(PokerHandUtility.ConvertToKicker);
-            pairs.Remove(PokerHandUtility.ReconvertToKicker(mainKicker));
-            values.RemoveAll(x => x == mainKicker);
-            byte subKicker = pairs.Max(PokerHandUtility.ConvertToKicker);
-            values.RemoveAll(x => x == subKicker);
+            byte mainKicker = PokerHandUtility.ConvertToKicker(pairs[0]);
+            byte subKicker = PokerHandUtility.ConvertToKicker(pairs[1]);
+            values.RemoveAll(x => x == mainKicker || x == subKicker);
             byte lastKicker = values.Max(PokerHandUtility.ConvertToKicker);
 
-            return new PokerHand(PokerHandType.TwoPair, new byte[]
-            {
-                mainKicker, mainKicker,
-                subKicker, subKicker,
-                lastKicker
-            });
+            return new PokerHand(PokerHandType.TwoPair, new byte[]{mainKicker, mainKicker, subKicker, subKicker, lastKicker});
         }
 
         return null;

@@ -9,13 +9,14 @@ public class CalcStraight : ICalcPokerHand
 
         while (distinctedValues.Count >= 5) // 중복이 아닌 값이 5이상일 때
         {
-            if (distinctedValues[^5] + 4 == distinctedValues[^1]) // 가장 높은 수 5장이 스트레이트로 존재하면
+            distinctedValues.Sort((x, y) => x <= y ? 1 : -1); // 기본적으로 1을 맨 앞에 두는 예외가 있기 때문에 재정렬 필요
+            if (distinctedValues[0] == distinctedValues[4] + 4) // 가장 높은 수 5장이 스트레이트로 존재하면
             {
                 // !!!!!Important
                 // 일반적인 스트레이트는 A를 K보다 높은 수로 보지 않음
-                return new PokerHand(PokerHandType.Straight, distinctedValues.TakeLast(5).Reverse().ToArray());
+                return new PokerHand(PokerHandType.Straight, distinctedValues.Take(5).ToArray());
             }
-            distinctedValues.RemoveAt(distinctedValues.Count - 1); // 가장 높은 수를 제거
+            distinctedValues.RemoveAt(0); // 가장 높은 수를 제거
         }
 
         return null;

@@ -18,12 +18,10 @@ public class CalcOnePair : ICalcPokerHand
         if (pairs.Count >= 1)
         {
             List<byte> values = cards.Select(x => PokerHandUtility.ConvertToKicker(x.Value)).ToList();
-            values.Sort();
-
-            byte mainKicker = pairs.Max(PokerHandUtility.ConvertToKicker);
-            pairs.Remove(PokerHandUtility.ReconvertToKicker(mainKicker));
+            byte mainKicker = PokerHandUtility.ConvertToKicker(pairs[0]);
             values.RemoveAll(x => x == mainKicker);
-            List<byte> kickers = Enumerable.Repeat(mainKicker, 2).Concat(values.TakeLast(3).Reverse()).ToList();
+
+            List<byte> kickers = Enumerable.Repeat(mainKicker, 2).Concat(values.Take(3)).ToList();
 
             return new PokerHand(PokerHandType.OnePair, kickers);
         }

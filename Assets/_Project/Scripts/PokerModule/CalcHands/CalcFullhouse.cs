@@ -34,9 +34,7 @@ public class CalcFullHouse : ICalcPokerHand
             pairs.Remove(PokerHandUtility.ReconvertToKicker(mainKicker));
             byte subKicker = pairs.Max(PokerHandUtility.ConvertToKicker);
 
-            byte[] kickers = Enumerable.Repeat(mainKicker, 3).Concat(Enumerable.Repeat(subKicker, 2)).ToArray();
-
-            return new PokerHand(PokerHandType.FullHouse, kickers);
+            return new PokerHand(PokerHandType.FullHouse, new byte[]{mainKicker, mainKicker, mainKicker, subKicker, subKicker });
         }
 
         return null;
