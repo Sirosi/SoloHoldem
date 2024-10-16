@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class CardManager : Singleton<CardManager>
 {
-    public GameObject CardPrefab;
+    [Header("General Settins")]
     public Transform CardGroup;
-
     public byte PackSize = 1;
 
-    private CardHandler[] cardHandlers = null;
+    [Header("Prefab Settings")]
+    public GameObject CardPrefab;
+
+    public readonly List<CardHandler> Cards = new();
 
 
     private const byte SUIT_TYPE_SIZE = 4;
@@ -19,18 +21,18 @@ public class CardManager : Singleton<CardManager>
     void Start()
     {
         Init();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Shuffle();
     }
 
     private void Init()
     {
-        List<CardHandler> cards = new();
-        for(int i = 0;i < PackSize;i++)
+        Cards.Clear();
+        foreach (Transform t in CardGroup)
+        {
+            Destroy(t.gameObject);
+        }
+
+        for (int i = 0;i < PackSize;i++)
         {
             for (int j = 0; j < SUIT_TYPE_SIZE; j++)
             {
@@ -41,11 +43,30 @@ public class CardManager : Singleton<CardManager>
                     GameObject g = Instantiate(CardPrefab, CardGroup);
                     CardHandler handler = g.GetComponent<CardHandler>();
                     handler.Set(suitType, (byte)(k + 1));
-                    cards.Add(handler);
+                    Cards.Add(handler);
                 }
             }
         }
+    }
 
-        cardHandlers = cards.ToArray();
+
+
+    public void Shuffle(int suffleCount = 1)
+    {
+        for (int i = 0; i < suffleCount; i++)
+        {
+            for (int j = 0; j < Cards.Count; j++)
+            {
+                int randIdx = Random.Range(0, Cards.Count);
+                CardHandler temp = Cards[randIdx];
+                Cards[randIdx] = Cards[j];
+                Cards[j] = temp;
+            }
+        }
+
+        foreach (CardHandler handler in Cards)
+        {
+            Logger.Debug(handler.Card);
+        }
     }
 }

@@ -8,6 +8,8 @@ public class CardGroupController : MonoBehaviour
     public Transform CardAreaRight;
     public Card[] Cards;
 
+    public int InvestedPot = 0;
+
     void Start()
     {
         Vector3 range = CardAreaRight.position - CardAreaLeft.position;

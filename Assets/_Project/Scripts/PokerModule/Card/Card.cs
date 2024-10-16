@@ -9,4 +9,9 @@ public struct Card
         Type = type;
         Value = value;
     }
+
+    public override readonly string ToString()
+    {
+        return $"[{Type}, {Value}]";
+    }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine;
 public class HoldemManager : MonoBehaviour
 {
     public CardGroupController[] CardController;
+    public byte DealerIndex = 0;
 
     public Card[] Cards =
     {
@@ -16,10 +18,31 @@ public class HoldemManager : MonoBehaviour
         new(),
         new(),
     };
-    public IPokerHandChecker HandChecker = new HoldemHandChecker();
 
 
-    private readonly Dictionary<CardGroupController, int> controllerPerBat = new();
+
+    private IPokerHandChecker handChecker = new HoldemHandChecker();
+
+
+
+    /// <summary>
+    /// ÀüÃ¼ ÆÇµ·
+    /// </summary>
+    public int TotalPot
+    {
+        get
+        {
+            int result = 0;
+            foreach(var ctrl in CardController)
+            {
+                result += ctrl.InvestedPot;
+            }
+
+            return result;
+        }
+    }
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -78,6 +101,20 @@ public class HoldemManager : MonoBehaviour
         #endregion
     }
 
+    public void BeginHand()
+    {
+        CardManager.Instance.Shuffle();
+        foreach(var ctrl in CardController)
+        {
+            ctrl.InvestedPot = 0;
+        }
+
+    }
+    public void EndHand()
+    {
+
+    }
+
     public void Test(SuitType s1, SuitType s2, SuitType s3, SuitType s4, SuitType s5, SuitType s6, SuitType s7
         , byte b1, byte b2, byte b3, byte b4, byte b5, byte b6, byte b7)
     {
@@ -88,12 +125,7 @@ public class HoldemManager : MonoBehaviour
         Cards[4] = new Card(s5, b5);
         Cards[5] = new Card(s6, b6);
         Cards[6] = new Card(s7, b7);
-        PokerHand pokerHand = HandChecker.CalcPokerHand(Cards);
+        PokerHand pokerHand = handChecker.CalcPokerHand(Cards);
         Logger.Debug(pokerHand.HandType.ToString(), pokerHand.GetHashCode(), pokerHand.Kicker[0], pokerHand.Kicker[1], pokerHand.Kicker[2], pokerHand.Kicker[3], pokerHand.Kicker[4]);
-    }
-
-    public void BatBalance(CardGroupController controller, int balance)
-    {
-        controllerPerBat[controller] += balance;
     }
 }
