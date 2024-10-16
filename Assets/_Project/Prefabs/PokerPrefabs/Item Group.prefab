@@ -164,11 +164,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CardAreaLeft: {fileID: 5335162547631588876}
   CardAreaRight: {fileID: 2031545967475145759}
+  DealerButtonPosition: {fileID: 0}
   Cards:
   - Type: 0
     Value: 0
   - Type: 0
     Value: 0
+  InvestedPot: 0
 --- !u!1 &5925590191211829078
 GameObject:
   m_ObjectHideFlags: 0

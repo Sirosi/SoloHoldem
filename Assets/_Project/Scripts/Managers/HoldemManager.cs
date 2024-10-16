@@ -1,12 +1,11 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class HoldemManager : MonoBehaviour
 {
-    public CardGroupController[] CardController;
-    public byte DealerIndex = 0;
+    public List<CardGroupController> CardCrtls = new();
+    public CardGroupController Dealer = null;
 
     public Card[] Cards =
     {
@@ -33,7 +32,7 @@ public class HoldemManager : MonoBehaviour
         get
         {
             int result = 0;
-            foreach(var ctrl in CardController)
+            foreach(var ctrl in CardCrtls)
             {
                 result += ctrl.InvestedPot;
             }
@@ -47,7 +46,7 @@ public class HoldemManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        Dealer = CardCrtls[Random.Range(0, CardCrtls.Count)];
 
         #region 테스트 코드
         /*// 로티플
@@ -101,19 +100,28 @@ public class HoldemManager : MonoBehaviour
         #endregion
     }
 
+    #region ◇ Start & End ◇
     public void BeginHand()
     {
         CardManager.Instance.Shuffle();
-        foreach(var ctrl in CardController)
+        foreach(var ctrl in CardCrtls)
         {
             ctrl.InvestedPot = 0;
         }
 
+
+
     }
     public void EndHand()
     {
-
+        while(Dealer.Stack > 0)
+        {
+            int dealerIdx = CardCrtls.IndexOf(Dealer) + 1;
+            dealerIdx = dealerIdx >= CardCrtls.Count ? 0 : dealerIdx;
+            Dealer = CardCrtls[dealerIdx];
+        }
     }
+    #endregion
 
     public void Test(SuitType s1, SuitType s2, SuitType s3, SuitType s4, SuitType s5, SuitType s6, SuitType s7
         , byte b1, byte b2, byte b3, byte b4, byte b5, byte b6, byte b7)

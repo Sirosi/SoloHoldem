@@ -6,17 +6,29 @@ public class CardGroupController : MonoBehaviour
 {
     public Transform CardAreaLeft;
     public Transform CardAreaRight;
+    public Transform DealerButtonPosition;
     public Card[] Cards;
 
-    public int InvestedPot = 0;
+    public ushort InvestedPot = 0;
+    public ushort Stack = 0;
 
     void Start()
     {
         Vector3 range = CardAreaRight.position - CardAreaLeft.position;
     }
 
-    public void Open()
+    public void Call()
     {
         
+    }
+    
+    public void Check()
+    {
+
+    }
+
+    public void Raise()
+    {
+
     }
 }
