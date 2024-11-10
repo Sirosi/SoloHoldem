@@ -5,11 +5,14 @@ using UnityEngine;
 public class CardManager : Singleton<CardManager>
 {
     [Header("General Settins")]
-    public Transform CardGroup;
-    public byte PackSize = 1;
+    [SerializeField] private Transform cardGroup;
+    [SerializeField] private Transform cardPosition;
+    [SerializeField] private byte packSize = 1;
 
     [Header("Prefab Settings")]
-    public GameObject CardPrefab;
+    [SerializeField] private GameObject cardPrefab;
+
+
 
     public readonly List<CardHandler> Cards = new();
 
@@ -27,12 +30,12 @@ public class CardManager : Singleton<CardManager>
     private void Init()
     {
         Cards.Clear();
-        foreach (Transform t in CardGroup)
+        foreach (Transform t in cardGroup)
         {
             Destroy(t.gameObject);
         }
 
-        for (int i = 0;i < PackSize;i++)
+        for (int i = 0;i < packSize;i++)
         {
             for (int j = 0; j < SUIT_TYPE_SIZE; j++)
             {
@@ -40,7 +43,7 @@ public class CardManager : Singleton<CardManager>
 
                 for (int k = 0; k < CARD_VALUE_SIZE; k++)
                 {
-                    GameObject g = Instantiate(CardPrefab, CardGroup);
+                    GameObject g = Instantiate(cardPrefab, cardPosition.position, Quaternion.identity, cardGroup);
                     CardHandler handler = g.GetComponent<CardHandler>();
                     handler.Set(suitType, (byte)(k + 1));
                     Cards.Add(handler);
