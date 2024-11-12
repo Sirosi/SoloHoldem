@@ -48,4 +48,37 @@ public static class CardSpriteAssets
     {
         _CardSprites = Resources.LoadAll<Sprite>("Sprites/PokerCards");
     }
+
+    public static Sprite GetCardSprite(Card card)
+    {
+        Sprite result = BackSprite;
+        byte value = card.Value;
+        try
+        {
+            switch (card.Type)
+            {
+                case SuitType.Joker:
+                    result = JokerSprite;
+                    break;
+                case SuitType.Spade:
+                    result = SpadeSprites[value - 1];
+                    break;
+                case SuitType.Clover:
+                    result = CloverSprites[value - 1];
+                    break;
+                case SuitType.Diamond:
+                    result = DiamondSprites[value - 1];
+                    break;
+                case SuitType.Heart:
+                    result = HeartSprites[value - 1];
+                    break;
+            }
+        }
+        catch
+        {
+            Logger.Error("CardValue Error", card.Type, value);
+        }
+
+        return result;
+    }
 }

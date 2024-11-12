@@ -2,11 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CardManager : Singleton<CardManager>
+public class CardManager : MonoBehaviour
 {
+    private const byte SUIT_TYPE_SIZE = 4;
+    private const byte CARD_VALUE_SIZE = 13;
+
+
+
     [Header("General Settins")]
     [SerializeField] private Transform cardGroup;
-    [SerializeField] private Transform cardPosition;
+    [SerializeField] public Transform CardPosition;
     [SerializeField] private byte packSize = 1;
 
     [Header("Prefab Settings")]
@@ -14,20 +19,20 @@ public class CardManager : Singleton<CardManager>
 
 
 
-    public readonly List<CardHandler> Cards = new();
-
-
-    private const byte SUIT_TYPE_SIZE = 4;
-    private const byte CARD_VALUE_SIZE = 13;
-
-
-    void Start()
+    public CardHandler NextCard
     {
-        Init();
-        Shuffle();
+        get
+        {
+            var result = Cards[UsedCards.Count];
+            UsedCards.Add(result);
+            return result;
+        }
     }
 
-    private void Init()
+    public readonly List<CardHandler> UsedCards = new();
+    public readonly List<CardHandler> Cards = new();
+
+    public void Init()
     {
         Cards.Clear();
         foreach (Transform t in cardGroup)
@@ -43,7 +48,7 @@ public class CardManager : Singleton<CardManager>
 
                 for (int k = 0; k < CARD_VALUE_SIZE; k++)
                 {
-                    GameObject g = Instantiate(cardPrefab, cardPosition.position, Quaternion.identity, cardGroup);
+                    GameObject g = Instantiate(cardPrefab, CardPosition.position, Quaternion.identity, cardGroup);
                     CardHandler handler = g.GetComponent<CardHandler>();
                     handler.Set(suitType, (byte)(k + 1));
                     Cards.Add(handler);
@@ -54,8 +59,14 @@ public class CardManager : Singleton<CardManager>
 
 
 
+    public void Clear()
+    {
+        UsedCards.Clear();
+    }
+
     public void Shuffle(int suffleCount = 1)
     {
+        Clear();
         for (int i = 0; i < suffleCount; i++)
         {
             for (int j = 0; j < Cards.Count; j++)
@@ -65,11 +76,6 @@ public class CardManager : Singleton<CardManager>
                 Cards[randIdx] = Cards[j];
                 Cards[j] = temp;
             }
-        }
-
-        foreach (CardHandler handler in Cards)
-        {
-            Logger.Debug(handler.Card);
         }
     }
 }

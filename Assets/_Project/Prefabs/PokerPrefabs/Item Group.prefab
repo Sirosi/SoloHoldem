@@ -81,15 +81,13 @@ MonoBehaviour:
   cardSize: 2
   cardGroup: {fileID: 1974540341508138168}
   dealerButtonPosition: {fileID: 8580924313053642668}
-  cardOffset: 1.25
+  cardOffset: 1.5
   gizmosEllipseCount: 3
   gizmosSize: 0.5
   gizmosColor: {r: 1, g: 0, b: 0, a: 1}
-  Cards:
-  - Type: 0
-    Value: 0
-  - Type: 0
-    Value: 0
+  CardPositions:
+  - {x: 8.25, y: -6, z: 0}
+  - {x: 9.75, y: -6, z: 0}
   InvestedPot: 0
   Stack: 0
 --- !u!1 &5925590191211829078

@@ -3,6 +3,56 @@ using System.Collections.Generic;
 
 public class PokerHand
 {
+    public string Name
+    {
+        get
+        {
+            string result = "Error";
+            switch(HandType)
+            {
+                case PokerHandType.NoPair:
+                    result = "노 페어";
+                    break;
+                case PokerHandType.OnePair:
+                    result = "원 페어";
+                    break;
+                case PokerHandType.TwoPair:
+                    result = "투 페어";
+                    break;
+                case PokerHandType.ThreeOfAKind:
+                    result = "트리플";
+                    break;
+                case PokerHandType.Straight:
+                    result = "스트레이트";
+                    break;
+                case PokerHandType.BroadwayStraight:
+                    result = "마운틴";
+                    break;
+                case PokerHandType.Flush:
+                    result = "플러쉬";
+                    break;
+                case PokerHandType.FullHouse:
+                    result = "풀하우스";
+                    break;
+                case PokerHandType.FourOfAKind:
+                    result = "포카드";
+                    break;
+                case PokerHandType.StraightFlush:
+                    result = "스트레이트 플러쉬";
+                    break;
+                case PokerHandType.RoyalStraightFlush:
+                    result = "로얄 스트레이트 플러쉬";
+                    break;
+                case PokerHandType.None:
+                default:
+                    result = "None";
+                    break;
+            }
+
+            return result;
+        }
+    }
+
     public PokerHandType HandType;
     public byte[] Kicker;
 
