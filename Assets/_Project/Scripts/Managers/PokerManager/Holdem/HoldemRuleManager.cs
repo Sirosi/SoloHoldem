@@ -32,13 +32,13 @@ public class HoldemRuleManager : MonoBehaviour, IPokerRule
 
     public void OnReady()
     {
-        ready = new HoldemReady(GraveyardPosition, CardManager, CardCrtls.ToArray(), null);
-        flop = new HoldemOpenPublics(GraveyardPosition, CardManager, publicCardPositions, 0, 3, null);
-        turn = new HoldemOpenPublics(GraveyardPosition, CardManager, publicCardPositions, 3, 4, null);
-        river = new HoldemOpenPublics(GraveyardPosition, CardManager, publicCardPositions, 4, 5, null);
-        collect = new HoldemCardCollect(CardManager, null);
+        ready = new HoldemReady(GraveyardPosition, CardManager, CardCrtls.ToArray(), OpenFlop);
+        flop = new HoldemOpenPublics(GraveyardPosition, CardManager, publicCardPositions, 0, 3, OpenTurn);
+        turn = new HoldemOpenPublics(GraveyardPosition, CardManager, publicCardPositions, 3, 4, OpenRiver);
+        river = new HoldemOpenPublics(GraveyardPosition, CardManager, publicCardPositions, 4, 5, CollectCards);
+        collect = new HoldemCardCollect(CardManager, ReadyHand);
 
-        ReadyTurn();
+        ReadyHand();
     }
 
     public void OnBeginHand()
@@ -58,7 +58,7 @@ public class HoldemRuleManager : MonoBehaviour, IPokerRule
 
 
 
-    private void ReadyTurn()
+    private void ReadyHand()
     {
         foreach (var crtl in CardCrtls)
         {

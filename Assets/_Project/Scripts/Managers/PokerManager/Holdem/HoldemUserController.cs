@@ -36,6 +36,7 @@ public class HoldemUserController: Singleton<HoldemUserController>
     private void Clear()
     {
         cards.Clear();
+        cardCnt = 0;
         handText.text = string.Empty;
 
         foreach (var card in publicCards)
