@@ -23,22 +23,22 @@ public class HoldemRuleManager : MonoBehaviour, IPokerRule
 
     public List<Card> PublicCards = new();
 
+    private IHoldemState ready, flop, turn, river, collect;
     private HoldemTurn holdemTurn = HoldemTurn.Ready;
     private int turnCount = 0;
 
-    IHoldemState ready, flop, turn, river, collect;
 
 
 
     public void OnReady()
     {
-        ready = new HoldemReady(GraveyardPosition, CardManager, CardCrtls.ToArray(), OpenFlop);
-        flop = new HoldemOpenPublics(GraveyardPosition, CardManager, publicCardPositions, 0, 3, OpenTurn);
-        turn = new HoldemOpenPublics(GraveyardPosition, CardManager, publicCardPositions, 3, 4, OpenRiver);
-        river = new HoldemOpenPublics(GraveyardPosition, CardManager, publicCardPositions, 4, 5, CallToDack);
-        collect = new HoldemCardCollect(CardManager, Reload);
+        ready = new HoldemReady(GraveyardPosition, CardManager, CardCrtls.ToArray(), null);
+        flop = new HoldemOpenPublics(GraveyardPosition, CardManager, publicCardPositions, 0, 3, null);
+        turn = new HoldemOpenPublics(GraveyardPosition, CardManager, publicCardPositions, 3, 4, null);
+        river = new HoldemOpenPublics(GraveyardPosition, CardManager, publicCardPositions, 4, 5, null);
+        collect = new HoldemCardCollect(CardManager, null);
 
-        Reload();
+        ReadyTurn();
     }
 
     public void OnBeginHand()
@@ -56,6 +56,18 @@ public class HoldemRuleManager : MonoBehaviour, IPokerRule
 
     }
 
+
+
+    private void ReadyTurn()
+    {
+        foreach (var crtl in CardCrtls)
+        {
+            crtl.Clear();
+        }
+        CardManager.Shuffle();
+
+        StartCoroutine(ready.Invoke(this));
+    }
     private void OpenFlop()
     {
         StartCoroutine(flop.Invoke(this));
@@ -68,19 +80,8 @@ public class HoldemRuleManager : MonoBehaviour, IPokerRule
     {
         StartCoroutine(river.Invoke(this));
     }
-    private void CallToDack()
+    private void CollectCards()
     {
         StartCoroutine(collect.Invoke(this));
-    }
-
-    public void Reload()
-    {
-        foreach (var crtl in CardCrtls)
-        {
-            crtl.Clear();
-        }
-        CardManager.Shuffle();
-
-        StartCoroutine(ready.Invoke(this));
     }
 }

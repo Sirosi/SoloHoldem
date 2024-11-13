@@ -40,17 +40,18 @@ public class HoldemUserController: Singleton<HoldemUserController>
 
         foreach (var card in publicCards)
         {
-            card.sprite = CardSpriteAssets.BackSprite;
+            card.enabled = false;
         }
         foreach (var card in privateCards)
         {
-            card.sprite = CardSpriteAssets.BackSprite;
+            card.enabled = false;
         }
     }
 
     private void TakeCard(Card card)
     {
         privateCards[cardCnt].sprite = CardSpriteAssets.GetCardSprite(card);
+        privateCards[cardCnt].enabled = true;
         cardCnt++;
 
         CheckHand(card);
@@ -59,6 +60,7 @@ public class HoldemUserController: Singleton<HoldemUserController>
     public void OpenPublicCard(Card card, int idx)
     {
         publicCards[idx].sprite = CardSpriteAssets.GetCardSprite(card);
+        publicCards[idx].enabled = true;
 
         CheckHand(card);
     }

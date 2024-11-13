@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CardGroupController : MonoBehaviour
 {
@@ -51,6 +52,7 @@ public class CardGroupController : MonoBehaviour
 
     void OnValidate()
     {
+        #region CardPosition ¼³Á¤
         CardPositions = new Vector3[cardSize];
 
         float leftOffset = (cardSize - 1) * 0.5f * cardOffset;
@@ -61,6 +63,7 @@ public class CardGroupController : MonoBehaviour
             float nowOffset = cardOffset * i;
             CardPositions[i] = leftPos + new Vector3(Mathf.Cos(angle), Mathf.Sin(angle)) * nowOffset;
         }
+        #endregion
     }
 
     public void Clear()
