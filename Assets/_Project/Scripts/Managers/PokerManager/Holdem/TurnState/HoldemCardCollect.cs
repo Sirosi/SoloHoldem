@@ -1,25 +1,29 @@
 using System;
+using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
 
 public class HoldemCardCollect: IHoldemState
 {
-    public Action AfterAction => null;
+    public Action AfterAction => _AfterAction;
+    private Action _AfterAction = null;
     private CardManager cardManager;
 
-    public HoldemCardCollect(CardManager cardManager)
+    public HoldemCardCollect(CardManager cardManager, Action action)
     {
         this.cardManager = cardManager;
+        _AfterAction = action;
     }
 
-    public async Task Invoke()
+    public IEnumerator Invoke(MonoBehaviour mono)
     {
-        await Task.Delay(2000);
+        yield return new WaitForSeconds(2);
         foreach (var card in cardManager.UsedCards)
         {
             card.Hide();
-            _ = SmoothMover.MoveAndRotate(card.transform, cardManager.CardPosition.position, cardManager.CardPosition.rotation);
+            mono.StartCoroutine(SmoothMover.MoveAndRotate(mono, card.transform, cardManager.CardPosition.position, cardManager.CardPosition.rotation, 50));
         }
+        yield return new WaitForSeconds(2);
 
         AfterAction?.Invoke();
     }

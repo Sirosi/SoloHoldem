@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Threading.Tasks;
+using UnityEngine;
 
 public interface IHoldemState
 {
@@ -9,5 +10,5 @@ public interface IHoldemState
         get;
     }
 
-    public Task Invoke();
+    public IEnumerator Invoke(MonoBehaviour mono);
 }

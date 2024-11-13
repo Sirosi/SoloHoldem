@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -29,14 +30,14 @@ public class HoldemOpenPublics : IHoldemState
     }
 
 
-    public async Task Invoke()
+    public IEnumerator Invoke(MonoBehaviour mono)
     {
-        await SmoothMover.MoveAndRotate(cardManager.NextCard.transform, graveyardPosition.position, graveyardPosition.rotation, 10);
+        yield return mono.StartCoroutine(SmoothMover.MoveAndRotate(mono, cardManager.NextCard.transform, graveyardPosition.position, graveyardPosition.rotation, 10));
         for(int i = start; i < end; i++)
         {
             Transform nowPos = publicCardPositions[i];
             CardHandler nowCard = cardManager.NextCard;
-            await SmoothMover.MoveAndRotate(nowCard.transform, nowPos.position, nowPos.rotation);
+            yield return mono.StartCoroutine(SmoothMover.MoveAndRotate(mono, nowCard.transform, nowPos.position, nowPos.rotation));
             HoldemUserController.Instance.OpenPublicCard(nowCard.Card, i);
             nowCard.Open();
         }

@@ -32,19 +32,13 @@ public class HoldemRuleManager : MonoBehaviour, IPokerRule
 
     public void OnReady()
     {
-        foreach(var crtl in CardCrtls)
-        {
-            crtl.Clear();
-        }
-        CardManager.Shuffle();
-
         ready = new HoldemReady(GraveyardPosition, CardManager, CardCrtls.ToArray(), OpenFlop);
         flop = new HoldemOpenPublics(GraveyardPosition, CardManager, publicCardPositions, 0, 3, OpenTurn);
         turn = new HoldemOpenPublics(GraveyardPosition, CardManager, publicCardPositions, 3, 4, OpenRiver);
         river = new HoldemOpenPublics(GraveyardPosition, CardManager, publicCardPositions, 4, 5, CallToDack);
-        collect = new HoldemCardCollect(CardManager);
+        collect = new HoldemCardCollect(CardManager, Reload);
 
-        ready.Invoke();
+        Reload();
     }
 
     public void OnBeginHand()
@@ -64,23 +58,29 @@ public class HoldemRuleManager : MonoBehaviour, IPokerRule
 
     private void OpenFlop()
     {
-        flop.Invoke();
+        StartCoroutine(flop.Invoke(this));
     }
     private void OpenTurn()
     {
-        turn.Invoke();
+        StartCoroutine(turn.Invoke(this));
     }
     private void OpenRiver()
     {
-        river.Invoke();
+        StartCoroutine(river.Invoke(this));
     }
     private void CallToDack()
     {
-        collect.Invoke();
+        StartCoroutine(collect.Invoke(this));
     }
 
     public void Reload()
     {
-        ready.Invoke();
+        foreach (var crtl in CardCrtls)
+        {
+            crtl.Clear();
+        }
+        CardManager.Shuffle();
+
+        StartCoroutine(ready.Invoke(this));
     }
 }
