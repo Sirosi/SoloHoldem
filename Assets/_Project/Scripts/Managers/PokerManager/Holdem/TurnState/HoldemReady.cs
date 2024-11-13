@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class HoldemReady: IHoldemState
@@ -25,20 +26,27 @@ public class HoldemReady: IHoldemState
     }
 
 
-    public IEnumerator Invoke(MonoBehaviour mono)
+    public async Task Invoke()
     {
-        foreach (var crtl in crtls)
+        try
         {
-            yield return mono.StartCoroutine(SmoothMover.MoveAndRotate(mono, cardManager.NextCard.transform, graveyardPosition.position, graveyardPosition.rotation, 10));
-
-            foreach(var target in crtl.CardPositions)
+            foreach (var crtl in crtls)
             {
-                var nowCard = cardManager.NextCard;
-                crtl.TakeCard(nowCard.Card);
-                yield return mono.StartCoroutine(SmoothMover.MoveAndRotate(mono, nowCard.transform, target, crtl.transform.rotation));
-            }
-        }
+                await SmoothMover.MoveAndRotate(cardManager.NextCard.transform, graveyardPosition.position, graveyardPosition.rotation, 10);
 
-        AfterAction?.Invoke();
+                foreach (var target in crtl.CardPositions)
+                {
+                    var nowCard = cardManager.NextCard;
+                    crtl.TakeCard(nowCard.Card);
+                    await SmoothMover.MoveAndRotate(nowCard.transform, target, crtl.transform.rotation);
+                }
+            }
+
+            AfterAction?.Invoke();
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex.Message);
+        }
     }
 }

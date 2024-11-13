@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -10,5 +9,5 @@ public interface IHoldemState
         get;
     }
 
-    public IEnumerator Invoke(MonoBehaviour mono);
+    public Task Invoke();
 }

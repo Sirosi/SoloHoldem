@@ -8,7 +8,7 @@ public class HoldemOpenPublics : IHoldemState
     public Action AfterAction => _AfterAction;
     private readonly Action _AfterAction = null;
 
-
+    private readonly Action<Card, int> drawAction = null;
 
     private readonly Transform graveyardPosition;
     private readonly CardManager cardManager;
@@ -19,29 +19,37 @@ public class HoldemOpenPublics : IHoldemState
 
 
 
-    public HoldemOpenPublics(Transform graveyardPosition, CardManager cardManager, Transform[] publicCardPositions, int start, int end, Action action)
+    public HoldemOpenPublics(Transform graveyardPosition, CardManager cardManager, Transform[] publicCardPositions, int start, int end, Action<Card, int> drawAction, Action action)
     {
         this.graveyardPosition = graveyardPosition;
         this.cardManager = cardManager;
         this.publicCardPositions = publicCardPositions;
         this.start = start;
         this.end = end;
+        this.drawAction = drawAction;
         _AfterAction = action;
     }
 
 
-    public IEnumerator Invoke(MonoBehaviour mono)
+    public async Task Invoke()
     {
-        yield return mono.StartCoroutine(SmoothMover.MoveAndRotate(mono, cardManager.NextCard.transform, graveyardPosition.position, graveyardPosition.rotation, 10));
-        for(int i = start; i < end; i++)
+        try
         {
-            Transform nowPos = publicCardPositions[i];
-            CardHandler nowCard = cardManager.NextCard;
-            yield return mono.StartCoroutine(SmoothMover.MoveAndRotate(mono, nowCard.transform, nowPos.position, nowPos.rotation));
-            HoldemUserController.Instance.OpenPublicCard(nowCard.Card, i);
-            nowCard.Open();
-        }
+            await SmoothMover.MoveAndRotate(cardManager.NextCard.transform, graveyardPosition.position, graveyardPosition.rotation, 10);
+            for (int i = start; i < end; i++)
+            {
+                Transform nowPos = publicCardPositions[i];
+                CardHandler nowCard = cardManager.NextCard;
+                await SmoothMover.MoveAndRotate(nowCard.transform, nowPos.position, nowPos.rotation);
+                drawAction?.Invoke(nowCard.Card, i);
+                nowCard.Open();
+            }
 
-        AfterAction?.Invoke();
+            AfterAction?.Invoke();
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex.Message);
+        }
     }
 }

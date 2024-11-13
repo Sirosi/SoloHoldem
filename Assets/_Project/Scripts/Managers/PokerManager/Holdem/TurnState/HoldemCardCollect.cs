@@ -15,16 +15,23 @@ public class HoldemCardCollect: IHoldemState
         _AfterAction = action;
     }
 
-    public IEnumerator Invoke(MonoBehaviour mono)
+    public async Task Invoke()
     {
-        yield return new WaitForSeconds(2);
-        foreach (var card in cardManager.UsedCards)
+        try
         {
-            card.Hide();
-            mono.StartCoroutine(SmoothMover.MoveAndRotate(mono, card.transform, cardManager.CardPosition.position, cardManager.CardPosition.rotation, 50));
-        }
-        yield return new WaitForSeconds(2);
+            await Task.Delay(2000);
+            foreach (var card in cardManager.UsedCards)
+            {
+                card.Hide();
+                _ = SmoothMover.MoveAndRotate(card.transform, cardManager.CardPosition.position, cardManager.CardPosition.rotation, 50);
+            }
+            await Task.Delay(2000);
 
-        AfterAction?.Invoke();
+            AfterAction?.Invoke();
+        }
+        catch(Exception ex)
+        {
+            Logger.Error(ex.Message);
+        }
     }
 }

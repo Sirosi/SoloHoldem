@@ -33,9 +33,9 @@ public class HoldemRuleManager : MonoBehaviour, IPokerRule
     public void OnReady()
     {
         ready = new HoldemReady(GraveyardPosition, CardManager, CardCrtls.ToArray(), OpenFlop);
-        flop = new HoldemOpenPublics(GraveyardPosition, CardManager, publicCardPositions, 0, 3, OpenTurn);
-        turn = new HoldemOpenPublics(GraveyardPosition, CardManager, publicCardPositions, 3, 4, OpenRiver);
-        river = new HoldemOpenPublics(GraveyardPosition, CardManager, publicCardPositions, 4, 5, CollectCards);
+        flop = new HoldemOpenPublics(GraveyardPosition, CardManager, publicCardPositions, 0, 3, HoldemUserController.Instance.OpenPublicCard, OpenTurn);
+        turn = new HoldemOpenPublics(GraveyardPosition, CardManager, publicCardPositions, 3, 4, HoldemUserController.Instance.OpenPublicCard, OpenRiver);
+        river = new HoldemOpenPublics(GraveyardPosition, CardManager, publicCardPositions, 4, 5, HoldemUserController.Instance.OpenPublicCard, CollectCards);
         collect = new HoldemCardCollect(CardManager, ReadyHand);
 
         ReadyHand();
@@ -66,22 +66,22 @@ public class HoldemRuleManager : MonoBehaviour, IPokerRule
         }
         CardManager.Shuffle();
 
-        StartCoroutine(ready.Invoke(this));
+        ready.Invoke();
     }
     private void OpenFlop()
     {
-        StartCoroutine(flop.Invoke(this));
+        flop.Invoke();
     }
     private void OpenTurn()
     {
-        StartCoroutine(turn.Invoke(this));
+        turn.Invoke();
     }
     private void OpenRiver()
     {
-        StartCoroutine(river.Invoke(this));
+        river.Invoke();
     }
     private void CollectCards()
     {
-        StartCoroutine(collect.Invoke(this));
+        collect.Invoke();
     }
 }
